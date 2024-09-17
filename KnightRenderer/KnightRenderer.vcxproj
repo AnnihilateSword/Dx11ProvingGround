@@ -148,15 +148,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\applicationclass.cpp" />
+    <ClCompile Include="src\cameraclass.cpp" />
+    <ClCompile Include="src\colorshaderclass.cpp" />
     <ClCompile Include="src\d3dclass.cpp" />
     <ClCompile Include="src\inputclass.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\modelclass.cpp" />
     <ClCompile Include="src\systemclass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\applicationclass.h" />
+    <ClInclude Include="src\cameraclass.h" />
+    <ClInclude Include="src\colorshaderclass.h" />
     <ClInclude Include="src\d3dclass.h" />
     <ClInclude Include="src\inputclass.h" />
+    <ClInclude Include="src\modelclass.h" />
     <ClInclude Include="src\systemclass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

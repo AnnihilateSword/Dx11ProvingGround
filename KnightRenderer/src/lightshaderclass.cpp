@@ -318,10 +318,10 @@ void LightShaderClass::OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND h
 	bufferSize = errorMessage->GetBufferSize();
 
 	// Open a file to write the error message to.
-	fout.open("log/shader-error.txt");
+	fout.open("shader-error.txt");
 
 	// Write out the error message.
-	for (i = 0; i < bufferSize; i++)
+	for (i = 0; i < bufferSize - 1; i++)
 	{
 		fout << compileErrors[i];
 	}
@@ -334,7 +334,7 @@ void LightShaderClass::OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND h
 	errorMessage = 0;
 
 	// Pop a message up on the screen to notify the user to check the text file for compile errors.
-	MessageBox(hwnd, L"Error compiling shader.  Check log/shader-error.txt for message.", shaderFilename, MB_OK);
+	MessageBox(hwnd, L"Error compiling shader.  Check shader-error.txt for message.", shaderFilename, MB_OK);
 
 	return;
 }

@@ -30,13 +30,16 @@
     <ClCompile Include="src\d3dclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\colorshaderclass.cpp">
+    <ClCompile Include="src\textureshaderclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\modelclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\cameraclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\textureclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,13 +56,16 @@
     <ClInclude Include="src\d3dclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\colorshaderclass.h">
+    <ClInclude Include="src\textureshaderclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\modelclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\cameraclass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\textureclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

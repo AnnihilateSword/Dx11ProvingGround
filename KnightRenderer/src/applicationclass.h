@@ -13,6 +13,8 @@
 #include "modelclass.h"
 #include "lightshaderclass.h"
 #include "lightclass.h"
+#include "textureshaderclass.h"
+#include "bitmapclass.h"
 
 
 /////////////
@@ -48,6 +50,9 @@ private:
 	LightShaderClass* m_LightShader;
 	LightClass* m_Lights;
 	int m_numLights;
+
+	TextureShaderClass* m_TextureShader;
+	BitmapClass* m_Bitmap;
 };
 
 #endif

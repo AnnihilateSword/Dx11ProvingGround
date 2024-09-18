@@ -14,7 +14,8 @@
 #include "core/render/3d/lightshaderclass.h"
 #include "core/render/3d/lightclass.h"
 #include "core/render/2d/textureshaderclass.h"
-#include "core/render/2d/bitmapclass.h"
+#include "core/render/2d/spriteclass.h"
+#include "core/timerclass.h"
 
 
 /////////////
@@ -41,7 +42,7 @@ public:
 	bool Frame();
 
 private:
-	bool Render(float);
+	bool Render();
 
 private:
 	D3DClass* m_Direct3D;
@@ -52,7 +53,8 @@ private:
 	int m_numLights;
 
 	TextureShaderClass* m_TextureShader;
-	BitmapClass* m_Bitmap;
+	SpriteClass* m_Sprite;
+	TimerClass* m_Timer;
 };
 
 #endif

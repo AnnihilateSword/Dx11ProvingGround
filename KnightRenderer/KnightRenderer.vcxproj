@@ -154,11 +154,13 @@
     <ClCompile Include="src\core\applicationclass.cpp" />
     <ClCompile Include="src\core\render\2d\bitmapclass.cpp" />
     <ClCompile Include="src\core\camera\cameraclass.cpp" />
+    <ClCompile Include="src\core\render\2d\spriteclass.cpp" />
     <ClCompile Include="src\core\render\3d\lightclass.cpp" />
     <ClCompile Include="src\core\render\textureclass.cpp" />
     <ClCompile Include="src\core\render\3d\lightshaderclass.cpp" />
     <ClCompile Include="src\core\render\d3dclass.cpp" />
     <ClCompile Include="src\core\input\inputclass.cpp" />
+    <ClCompile Include="src\core\timerclass.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\core\render\3d\modelclass.cpp" />
     <ClCompile Include="src\core\systemclass.cpp" />
@@ -168,6 +170,7 @@
     <ClInclude Include="src\core\applicationclass.h" />
     <ClInclude Include="src\core\render\2d\bitmapclass.h" />
     <ClInclude Include="src\core\camera\cameraclass.h" />
+    <ClInclude Include="src\core\render\2d\spriteclass.h" />
     <ClInclude Include="src\core\render\3d\lightclass.h" />
     <ClInclude Include="src\core\render\textureclass.h" />
     <ClInclude Include="src\core\render\3d\lightshaderclass.h" />
@@ -176,6 +179,7 @@
     <ClInclude Include="src\core\render\3d\modelclass.h" />
     <ClInclude Include="src\core\systemclass.h" />
     <ClInclude Include="src\core\render\2d\textureshaderclass.h" />
+    <ClInclude Include="src\core\timerclass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

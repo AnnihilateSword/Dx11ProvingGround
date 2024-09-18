@@ -182,6 +182,7 @@ bool TextureClass::LoadTarga32Bit(char* filename)
 	index = 0;
 
 	// Initialize the index into the targa image data.
+	// 从图像的最后一行开始的第一个像素的位置（根据 tag 文件的存储顺序来设置）
 	k = (m_width * m_height * 4) - (m_width * 4);
 
 	// Now copy the targa image data into the targa destination array in the correct order since the targa format is stored upside down and also is not in RGBA order.
@@ -200,6 +201,7 @@ bool TextureClass::LoadTarga32Bit(char* filename)
 		}
 
 		// Set the targa image data index back to the preceding row at the beginning of the column since its reading it in upside down.
+		// 因为Targa图像数据是倒序存储的，所以需要逐行向前移动
 		k -= (m_width * 8);
 	}
 

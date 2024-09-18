@@ -20,7 +20,7 @@
 ///////////////////////
 // MY CLASS INCLUDES //
 ///////////////////////
-#include "inputclass.h"
+#include "core/input/inputclass.h"
 #include "applicationclass.h"
 
 

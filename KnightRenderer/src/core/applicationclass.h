@@ -8,13 +8,13 @@
 ///////////////////////
 // MY CLASS INCLUDES //
 ///////////////////////
-#include "d3dclass.h"
-#include "cameraclass.h"
-#include "modelclass.h"
-#include "lightshaderclass.h"
-#include "lightclass.h"
-#include "textureshaderclass.h"
-#include "bitmapclass.h"
+#include "core/render/d3dclass.h"
+#include "core/camera/cameraclass.h"
+#include "core/render/3d/modelclass.h"
+#include "core/render/3d/lightshaderclass.h"
+#include "core/render/3d/lightclass.h"
+#include "core/render/2d/textureshaderclass.h"
+#include "core/render/2d/bitmapclass.h"
 
 
 /////////////

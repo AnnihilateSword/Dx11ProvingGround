@@ -18,72 +18,72 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\applicationclass.cpp">
+    <ClCompile Include="src\core\applicationclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\inputclass.cpp">
+    <ClCompile Include="src\core\input\inputclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\systemclass.cpp">
+    <ClCompile Include="src\core\systemclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\d3dclass.cpp">
+    <ClCompile Include="src\core\render\d3dclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\lightshaderclass.cpp">
+    <ClCompile Include="src\core\render\3d\lightshaderclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\modelclass.cpp">
+    <ClCompile Include="src\core\render\3d\modelclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cameraclass.cpp">
+    <ClCompile Include="src\core\camera\cameraclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\textureclass.cpp">
+    <ClCompile Include="src\core\render\textureclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\lightclass.cpp">
+    <ClCompile Include="src\core\render\3d\lightclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\bitmapclass.cpp">
+    <ClCompile Include="src\core\render\2d\bitmapclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\textureshaderclass.cpp">
+    <ClCompile Include="src\core\render\2d\textureshaderclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\applicationclass.h">
+    <ClInclude Include="src\core\applicationclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\inputclass.h">
+    <ClInclude Include="src\core\input\inputclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\systemclass.h">
+    <ClInclude Include="src\core\systemclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\d3dclass.h">
+    <ClInclude Include="src\core\render\d3dclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\lightshaderclass.h">
+    <ClInclude Include="src\core\render\3d\lightshaderclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\modelclass.h">
+    <ClInclude Include="src\core\render\3d\modelclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\cameraclass.h">
+    <ClInclude Include="src\core\camera\cameraclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\textureclass.h">
+    <ClInclude Include="src\core\render\textureclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\lightclass.h">
+    <ClInclude Include="src\core\render\3d\lightclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\bitmapclass.h">
+    <ClInclude Include="src\core\render\2d\bitmapclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\textureshaderclass.h">
+    <ClInclude Include="src\core\render\2d\textureshaderclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

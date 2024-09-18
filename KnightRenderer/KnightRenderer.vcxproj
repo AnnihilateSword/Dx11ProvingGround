@@ -93,6 +93,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)KnightRenderer\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -108,6 +109,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)KnightRenderer\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -123,6 +125,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)KnightRenderer\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -138,6 +141,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)KnightRenderer\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -147,31 +151,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\applicationclass.cpp" />
-    <ClCompile Include="src\bitmapclass.cpp" />
-    <ClCompile Include="src\cameraclass.cpp" />
-    <ClCompile Include="src\lightclass.cpp" />
-    <ClCompile Include="src\textureclass.cpp" />
-    <ClCompile Include="src\lightshaderclass.cpp" />
-    <ClCompile Include="src\d3dclass.cpp" />
-    <ClCompile Include="src\inputclass.cpp" />
+    <ClCompile Include="src\core\applicationclass.cpp" />
+    <ClCompile Include="src\core\render\2d\bitmapclass.cpp" />
+    <ClCompile Include="src\core\camera\cameraclass.cpp" />
+    <ClCompile Include="src\core\render\3d\lightclass.cpp" />
+    <ClCompile Include="src\core\render\textureclass.cpp" />
+    <ClCompile Include="src\core\render\3d\lightshaderclass.cpp" />
+    <ClCompile Include="src\core\render\d3dclass.cpp" />
+    <ClCompile Include="src\core\input\inputclass.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\modelclass.cpp" />
-    <ClCompile Include="src\systemclass.cpp" />
-    <ClCompile Include="src\textureshaderclass.cpp" />
+    <ClCompile Include="src\core\render\3d\modelclass.cpp" />
+    <ClCompile Include="src\core\systemclass.cpp" />
+    <ClCompile Include="src\core\render\2d\textureshaderclass.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\applicationclass.h" />
-    <ClInclude Include="src\bitmapclass.h" />
-    <ClInclude Include="src\cameraclass.h" />
-    <ClInclude Include="src\lightclass.h" />
-    <ClInclude Include="src\textureclass.h" />
-    <ClInclude Include="src\lightshaderclass.h" />
-    <ClInclude Include="src\d3dclass.h" />
-    <ClInclude Include="src\inputclass.h" />
-    <ClInclude Include="src\modelclass.h" />
-    <ClInclude Include="src\systemclass.h" />
-    <ClInclude Include="src\textureshaderclass.h" />
+    <ClInclude Include="src\core\applicationclass.h" />
+    <ClInclude Include="src\core\render\2d\bitmapclass.h" />
+    <ClInclude Include="src\core\camera\cameraclass.h" />
+    <ClInclude Include="src\core\render\3d\lightclass.h" />
+    <ClInclude Include="src\core\render\textureclass.h" />
+    <ClInclude Include="src\core\render\3d\lightshaderclass.h" />
+    <ClInclude Include="src\core\render\d3dclass.h" />
+    <ClInclude Include="src\core\input\inputclass.h" />
+    <ClInclude Include="src\core\render\3d\modelclass.h" />
+    <ClInclude Include="src\core\systemclass.h" />
+    <ClInclude Include="src\core\render\2d\textureshaderclass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

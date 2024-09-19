@@ -18,7 +18,7 @@ class TimerClass
 {
 public:
 	TimerClass();
-	TimerClass(const TimerClass&);
+	TimerClass(const TimerClass& other);
 	~TimerClass();
 
 	bool Initialize();

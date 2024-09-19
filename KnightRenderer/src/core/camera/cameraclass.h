@@ -19,17 +19,17 @@ class CameraClass
 {
 public:
 	CameraClass();
-	CameraClass(const CameraClass&);
+	CameraClass(const CameraClass& other);
 	~CameraClass();
 
-	void SetPosition(float, float, float);
-	void SetRotation(float, float, float);
+	void SetPosition(float x, float y, float z);
+	void SetRotation(float x, float y, float z);
 
 	XMFLOAT3 GetPosition();
 	XMFLOAT3 GetRotation();
 
 	void Render();
-	void GetViewMatrix(XMMATRIX&);
+	void GetViewMatrix(XMMATRIX& viewMatrix);
 
 private:
 	float m_positionX, m_positionY, m_positionZ;

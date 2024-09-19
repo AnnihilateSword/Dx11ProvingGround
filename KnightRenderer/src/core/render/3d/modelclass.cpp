@@ -250,7 +250,7 @@ void ModelClass::ReleaseTexture()
 
 bool ModelClass::LoadModel(char* filename)
 {
-	ifstream fin;
+	std::ifstream fin;
 	char input;
 	int i;
 

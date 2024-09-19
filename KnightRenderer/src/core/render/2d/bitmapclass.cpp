@@ -352,6 +352,6 @@ void BitmapClass::SetRenderLocation(int x, int y)
 
 void BitmapClass::SetRenderScale(float x, float y)
 {
-	m_bitmapWidth *= x;
-	m_bitmapHeight *= y;
+	m_bitmapWidth = static_cast<int>(m_bitmapWidth * x);
+	m_bitmapHeight = static_cast<int>(m_bitmapHeight * y);
 }

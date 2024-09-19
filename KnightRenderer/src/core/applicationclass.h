@@ -34,10 +34,10 @@ class ApplicationClass
 {
 public:
 	ApplicationClass();
-	ApplicationClass(const ApplicationClass&);
+	ApplicationClass(const ApplicationClass& other);
 	~ApplicationClass();
 
-	bool Initialize(int, int, HWND);
+	bool Initialize(int screenWidth, int screenHeight, HWND hwnd);
 	void Shutdown();
 	bool Frame();
 

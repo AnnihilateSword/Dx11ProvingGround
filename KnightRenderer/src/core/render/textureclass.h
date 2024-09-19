@@ -30,10 +30,10 @@ private:
 
 public:
 	TextureClass();
-	TextureClass(const TextureClass&);
+	TextureClass(const TextureClass& other);
 	~TextureClass();
 
-	bool Initialize(ID3D11Device*, ID3D11DeviceContext*, char*);
+	bool Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext, char* filename);
 	void Shutdown();
 
 	ID3D11ShaderResourceView* GetTexture();
@@ -47,7 +47,7 @@ private:
 	 * 请注意，我们故意只处理具有 Alpha 通道的 32 位 Targa 文件
 	 * 此函数将拒绝保存为 24 位的 Targa 文件
 	 */
-	bool LoadTarga32Bit(char*);
+	bool LoadTarga32Bit(char* filename);
 
 private:
 	unsigned char* m_targaData;

@@ -12,7 +12,6 @@
 #include <directxmath.h>
 #include <fstream>
 using namespace DirectX;
-using namespace std;
 
 
 ///////////////////////
@@ -43,29 +42,29 @@ private:
 
 public:
 	ModelClass();
-	ModelClass(const ModelClass&);
+	ModelClass(const ModelClass& other);
 	~ModelClass();
 
-	bool Initialize(ID3D11Device*, ID3D11DeviceContext*, char*, char*);
+	bool Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext, char* modelFilename, char* textureFilename);
 	void Shutdown();
-	void Render(ID3D11DeviceContext*);
+	void Render(ID3D11DeviceContext* deviceContext);
 
 	int GetIndexCount();
 	ID3D11ShaderResourceView* GetTexture();
 
 private:
-	bool InitializeBuffers(ID3D11Device*);
+	bool InitializeBuffers(ID3D11Device* device);
 	void ShutdownBuffers();
-	void RenderBuffers(ID3D11DeviceContext*);
+	void RenderBuffers(ID3D11DeviceContext* deviceContext);
 
-	bool LoadTexture(ID3D11Device*, ID3D11DeviceContext*, char*);
+	bool LoadTexture(ID3D11Device* device, ID3D11DeviceContext* deviceContext, char* filename);
 	void ReleaseTexture();
 
-	bool LoadModel(char*);
+	bool LoadModel(char* filename);
 	void ReleaseModel();
 
 private:
-	ID3D11Buffer* m_vertexBuffer, * m_indexBuffer;
+	ID3D11Buffer* m_vertexBuffer, *m_indexBuffer;
 	int m_vertexCount, m_indexCount;
 	TextureClass* m_Texture;
 	ModelType* m_Model;

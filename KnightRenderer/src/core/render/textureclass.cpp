@@ -77,7 +77,7 @@ bool TextureClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceC
 		return false;
 	}
 
-	// Generate mipmaps for this texture.
+	// Generates mipmaps for the given shader resource.
 	deviceContext->GenerateMips(m_textureView);
 
 	// Release the targa image data now that the image data has been loaded into the texture.

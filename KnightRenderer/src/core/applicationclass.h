@@ -16,6 +16,9 @@
 #include "core/render/2d/textureshaderclass.h"
 #include "core/render/2d/spriteclass.h"
 #include "core/timerclass.h"
+#include "core/render/2d/fontshaderclass.h"
+#include "core/render/2d/fontclass.h"
+#include "core/render/2d/textclass.h"
 
 
 /////////////
@@ -52,9 +55,19 @@ private:
 	LightClass* m_Lights;
 	int m_numLights;
 
+	// ******
+	// sprite
+	// ******
 	TextureShaderClass* m_TextureShader;
 	SpriteClass* m_Sprite;
 	TimerClass* m_Timer;
+
+	// ****
+	// font
+	// ****
+	FontShaderClass* m_FontShader;
+	FontClass* m_Font;
+	TextClass* m_TextString1, * m_TextString2;
 };
 
 #endif

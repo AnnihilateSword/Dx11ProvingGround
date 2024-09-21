@@ -154,7 +154,10 @@
     <ClCompile Include="src\core\applicationclass.cpp" />
     <ClCompile Include="src\core\render\2d\bitmapclass.cpp" />
     <ClCompile Include="src\core\camera\cameraclass.cpp" />
+    <ClCompile Include="src\core\render\2d\fontclass.cpp" />
+    <ClCompile Include="src\core\render\2d\fontshaderclass.cpp" />
     <ClCompile Include="src\core\render\2d\spriteclass.cpp" />
+    <ClCompile Include="src\core\render\2d\textclass.cpp" />
     <ClCompile Include="src\core\render\3d\lightclass.cpp" />
     <ClCompile Include="src\core\render\textureclass.cpp" />
     <ClCompile Include="src\core\render\3d\lightshaderclass.cpp" />
@@ -170,7 +173,10 @@
     <ClInclude Include="src\core\applicationclass.h" />
     <ClInclude Include="src\core\render\2d\bitmapclass.h" />
     <ClInclude Include="src\core\camera\cameraclass.h" />
+    <ClInclude Include="src\core\render\2d\fontclass.h" />
+    <ClInclude Include="src\core\render\2d\fontshaderclass.h" />
     <ClInclude Include="src\core\render\2d\spriteclass.h" />
+    <ClInclude Include="src\core\render\2d\textclass.h" />
     <ClInclude Include="src\core\render\3d\lightclass.h" />
     <ClInclude Include="src\core\render\textureclass.h" />
     <ClInclude Include="src\core\render\3d\lightshaderclass.h" />

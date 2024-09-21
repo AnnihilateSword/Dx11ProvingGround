@@ -9,11 +9,10 @@ ApplicationClass::ApplicationClass()
 {
 	m_Direct3D = 0;
 	m_Camera = 0;
+	m_MultiTextureShader = 0;
 	m_Model = 0;
 	m_LightShader = 0;
 	m_Lights = 0;
-	m_TextureShader = 0;
-	m_Sprite = 0;
 	m_Timer = 0;
 	m_FontShader = 0;
 	m_Font = 0;
@@ -36,10 +35,7 @@ ApplicationClass::~ApplicationClass()
 
 bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 {
-	char modelFilename[128];
-	char textureFilename[128];
-	// sprite
-	char spriteFilename[128];
+	char modelFilename[128], textureFilename1[128], textureFilename2[128];
 	// font
 	char testString[64];
 	char fpsString[32];
@@ -61,80 +57,36 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	m_Camera = new CameraClass;
 
 	// Set the initial position of the camera.
-	m_Camera->SetPosition(0.0f, 2.0f, -12.0f);
+	m_Camera->SetPosition(0.0f, 0.0f, -5.0f);
 	m_Camera->Render();
+
+	// Create and initialize the multitexture shader object.
+	m_MultiTextureShader = new MultiTextureShaderClass;
+
+	result = m_MultiTextureShader->Initialize(m_Direct3D->GetDevice(), hwnd);
+	if (!result)
+	{
+		MessageBox(hwnd, L"Could not initialize the multitexture shader object.", L"Error", MB_OK);
+		return false;
+	}
+
+	// Set the file name of the model.
+	strcpy_s(modelFilename, "./textures/square.txt");
+
+	// Set the file name of the textures.
+	strcpy_s(textureFilename1, "./textures/stone01.tga");
+	strcpy_s(textureFilename2, "./textures/dirt01.tga");
 
 	// Create and initialize the model object.
 	m_Model = new ModelClass;
 
-	// Set the file name of the model.
-	strcpy_s(modelFilename, "./data/plane.txt");
-
-	// Set the name of the texture file that we will be loading.
-	strcpy_s(textureFilename, "./textures/stone01.tga");
-
-	result = m_Model->Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), modelFilename, textureFilename);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
-		return false;
-	}
-
-	// Create and initialize the texture shader object.
-	m_LightShader = new LightShaderClass;
-
-	result = m_LightShader->Initialize(m_Direct3D->GetDevice(), hwnd);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the light shader object.", L"Error", MB_OK);
-		return false;
-	}
-
-	// Set the number of lights we will use.
-	m_numLights = 4;
-
-	// Create and initialize the light objects array.
-	m_Lights = new LightClass[m_numLights];
-
-	// Manually set the color and position of each light.
-	m_Lights[0].SetDiffuseColor(1.0f, 0.0f, 0.0f, 1.0f);  // Red
-	m_Lights[0].SetPosition(-3.0f, 1.0f, 3.0f);
-
-	m_Lights[1].SetDiffuseColor(0.0f, 1.0f, 0.0f, 1.0f);  // Green
-	m_Lights[1].SetPosition(3.0f, 1.0f, 3.0f);
-
-	m_Lights[2].SetDiffuseColor(0.0f, 0.0f, 1.0f, 1.0f);  // Blue
-	m_Lights[2].SetPosition(-3.0f, 1.0f, -3.0f);
-
-	m_Lights[3].SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);  // White
-	m_Lights[3].SetPosition(3.0f, 1.0f, -3.0f);
-
-
-	// **************************
-	// 2D Rendering Initializtion
-	// **************************
-	m_TextureShader = new TextureShaderClass;
-
-	result = m_TextureShader->Initialize(m_Direct3D->GetDevice(), hwnd);
-	if (!result)
-	{
-		MessageBox(hwnd, L"Could not initialize the texture shader object.", L"Error", MB_OK);
-		return false;
-	}
-
-	// Set the file name of the bitmap file.
-	strcpy_s(spriteFilename, "./data/2d/sprite_data_01.txt");
-
-	// Create and initialize the bitmap object.
-	m_Sprite = new SpriteClass;
-
-	result = m_Sprite->Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), screenWidth, screenHeight, spriteFilename, 60, 220);
+	result = m_Model->Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), modelFilename, textureFilename1, textureFilename2);
 	if (!result)
 	{
 		return false;
 	}
-	m_Sprite->SetRenderScale(1.0f, 1.0f);
 
+	
 	// Create and initialize the timer object.
 	m_Timer = new TimerClass;
 
@@ -144,6 +96,9 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
+	// **************************
+	// 2D Rendering Initializtion
+	// **************************
 
 	// ******************
 	// Font Initializtion
@@ -287,43 +242,20 @@ void ApplicationClass::Shutdown()
 		m_Timer = 0;
 	}
 
-	// Release the sprite object.
-	if (m_Sprite)
-	{
-		m_Sprite->Shutdown();
-		delete m_Sprite;
-		m_Sprite = 0;
-	}
-
-	// Release the texture shader object.
-	if (m_TextureShader)
-	{
-		m_TextureShader->Shutdown();
-		delete m_TextureShader;
-		m_TextureShader = 0;
-	}
-
-	// Release the light objects.
-	if (m_Lights)
-	{
-		delete[] m_Lights;
-		m_Lights = 0;
-	}
-
-	// Release the light shader object.
-	if (m_LightShader)
-	{
-		m_LightShader->Shutdown();
-		delete m_LightShader;
-		m_LightShader = 0;
-	}
-
 	// Release the model object.
 	if (m_Model)
 	{
 		m_Model->Shutdown();
 		delete m_Model;
 		m_Model = 0;
+	}
+
+	// Release the multitexture shader object.
+	if (m_MultiTextureShader)
+	{
+		m_MultiTextureShader->Shutdown();
+		delete m_MultiTextureShader;
+		m_MultiTextureShader = 0;
 	}
 
 	// Release the camera object.
@@ -384,16 +316,11 @@ bool ApplicationClass::Frame(InputClass* Input)
 	}
 
 
-
 	// Update the system stats.
 	m_Timer->Frame();
 
 	// Get the current frame time.
 	frameTime = m_Timer->GetTime();
-
-	// Update the sprite object using the frame time.
-	m_Sprite->Update(frameTime);
-
 
 	// **************************
 	// Render the graphics scene.
@@ -439,10 +366,8 @@ bool ApplicationClass::Render()
 
 	// Put the model vertex and index buffers on the graphics pipeline to prepare them for drawing.
 	m_Model->Render(m_Direct3D->GetDeviceContext());
-
-	// Render the model using the light shader.
-	result = m_LightShader->Render(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture(),
-		diffuseColor, lightPosition);
+	result = m_MultiTextureShader->Render(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
+		m_Model->GetTexture(0), m_Model->GetTexture(1));
 	if (!result)
 	{
 		return false;
@@ -456,27 +381,6 @@ bool ApplicationClass::Render()
 	m_Direct3D->GetWorldMatrix(worldMatrix);
 	m_Camera->GetViewMatrix(viewMatrix);
 	m_Direct3D->GetOrthoMatrix(orthoMatrix);
-
-	// Turn off the Z buffer to begin all 2D rendering.
-	m_Direct3D->TurnZBufferOff();
-
-	// Put the sprite vertex and index buffers on the graphics pipeline to prepare them for drawing.
-	result = m_Sprite->Render(m_Direct3D->GetDeviceContext());
-	if (!result)
-	{
-		return false;
-	}
-
-	// Render the sprite with the texture shader.
-	result = m_TextureShader->Render(m_Direct3D->GetDeviceContext(), m_Sprite->GetIndexCount(), worldMatrix, viewMatrix, orthoMatrix, m_Sprite->GetTexture());
-	if (!result)
-	{
-		return false;
-	}
-
-	// Turn the Z buffer back on now that all 2D rendering has completed.
-	m_Direct3D->TurnZBufferOn();
-
 
 	// **************
 	// font rendering

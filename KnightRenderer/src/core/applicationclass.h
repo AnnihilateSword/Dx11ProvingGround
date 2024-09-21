@@ -21,6 +21,7 @@
 #include "core/render/2d/fontclass.h"
 #include "core/render/2d/textclass.h"
 #include "core/fpsclass.h"
+#include "core/render/2d/multitextureshaderclass.h"
 
 
 /////////////
@@ -54,17 +55,15 @@ private:
 private:
 	D3DClass* m_Direct3D;
 	CameraClass* m_Camera;
+	MultiTextureShaderClass* m_MultiTextureShader;
 	ModelClass* m_Model;
 	LightShaderClass* m_LightShader;
 	LightClass* m_Lights;
 	int m_numLights;
 
-	// ******
-	// sprite
-	// ******
-	TextureShaderClass* m_TextureShader;
-	SpriteClass* m_Sprite;
+
 	TimerClass* m_Timer;
+	
 
 	// ****
 	// font

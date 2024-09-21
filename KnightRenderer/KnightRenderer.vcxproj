@@ -159,6 +159,7 @@
     <ClCompile Include="src\core\render\2d\fontshaderclass.cpp" />
     <ClCompile Include="src\core\render\2d\spriteclass.cpp" />
     <ClCompile Include="src\core\render\2d\textclass.cpp" />
+    <ClCompile Include="src\core\render\3d\alphamapshaderclass.cpp" />
     <ClCompile Include="src\core\render\3d\lightclass.cpp" />
     <ClCompile Include="src\core\render\2d\multitextureshaderclass.cpp" />
     <ClCompile Include="src\core\render\3d\lightmapshaderclass.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="src\core\render\2d\fontshaderclass.h" />
     <ClInclude Include="src\core\render\2d\spriteclass.h" />
     <ClInclude Include="src\core\render\2d\textclass.h" />
+    <ClInclude Include="src\core\render\3d\alphamapshaderclass.h" />
     <ClInclude Include="src\core\render\3d\lightclass.h" />
     <ClInclude Include="src\core\render\2d\multitextureshaderclass.h" />
     <ClInclude Include="src\core\render\3d\lightmapshaderclass.h" />

@@ -14,6 +14,7 @@
 #include "core/render/3d/modelclass.h"
 #include "core/render/3d/lightshaderclass.h"
 #include "core/render/3d/lightmapshaderclass.h"
+#include "core/render/3d/alphamapshaderclass.h"
 #include "core/render/3d/lightclass.h"
 #include "core/render/2d/textureshaderclass.h"
 #include "core/render/2d/spriteclass.h"
@@ -56,7 +57,7 @@ private:
 private:
 	D3DClass* m_Direct3D;
 	CameraClass* m_Camera;
-	LightMapShaderClass* m_LightMapShader;
+	AlphaMapShaderClass* m_AlphaMapShader;
 	ModelClass* m_Model;
 
 

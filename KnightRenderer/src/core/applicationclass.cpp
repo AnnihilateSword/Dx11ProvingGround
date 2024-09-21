@@ -9,7 +9,7 @@ ApplicationClass::ApplicationClass()
 {
 	m_Direct3D = 0;
 	m_Camera = 0;
-	m_LightMapShader = 0;
+	m_AlphaMapShader = 0;
 	m_Model = 0;
 
 	m_Timer = 0;
@@ -34,7 +34,8 @@ ApplicationClass::~ApplicationClass()
 
 bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 {
-	char modelFilename[128], textureFilename1[128], textureFilename2[128];
+	char modelFilename[128];
+	char textureFilename1[128], textureFilename2[128], textureFilename3[128];
 	// font
 	char testString[64];
 	char fpsString[32];
@@ -60,9 +61,9 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	m_Camera->Render();
 
 	// Create and initialize the multitexture shader object.
-	m_LightMapShader = new LightMapShaderClass;
+	m_AlphaMapShader = new AlphaMapShaderClass;
 
-	result = m_LightMapShader->Initialize(m_Direct3D->GetDevice(), hwnd);
+	result = m_AlphaMapShader->Initialize(m_Direct3D->GetDevice(), hwnd);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the light map shader object.", L"Error", MB_OK);
@@ -74,12 +75,14 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 	// Set the file name of the textures.
 	strcpy_s(textureFilename1, "./textures/stone01.tga");
-	strcpy_s(textureFilename2, "./textures/light01.tga");
+	strcpy_s(textureFilename2, "./textures/dirt01.tga");
+	strcpy_s(textureFilename3, "./textures/alpha01.tga");
 
 	// Create and initialize the model object.
 	m_Model = new ModelClass;
 
-	result = m_Model->Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), modelFilename, textureFilename1, textureFilename2);
+	result = m_Model->Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), modelFilename, 
+		textureFilename1, textureFilename2, textureFilename3);
 	if (!result)
 	{
 		return false;
@@ -250,11 +253,11 @@ void ApplicationClass::Shutdown()
 	}
 
 	// Release the multitexture shader object.
-	if (m_LightMapShader)
+	if (m_AlphaMapShader)
 	{
-		m_LightMapShader->Shutdown();
-		delete m_LightMapShader;
-		m_LightMapShader = 0;
+		m_AlphaMapShader->Shutdown();
+		delete m_AlphaMapShader;
+		m_AlphaMapShader = 0;
 	}
 
 	// Release the camera object.
@@ -355,8 +358,8 @@ bool ApplicationClass::Render()
 
 	// Put the model vertex and index buffers on the graphics pipeline to prepare them for drawing.
 	m_Model->Render(m_Direct3D->GetDeviceContext());
-	result = m_LightMapShader->Render(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
-		m_Model->GetTexture(0), m_Model->GetTexture(1));
+	result = m_AlphaMapShader->Render(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
+		m_Model->GetTexture(0), m_Model->GetTexture(1), m_Model->GetTexture(2));
 	if (!result)
 	{
 		return false;

@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\core\applicationclass.cpp" />
+    <ClCompile Include="src\core\fpsclass.cpp" />
     <ClCompile Include="src\core\render\2d\bitmapclass.cpp" />
     <ClCompile Include="src\core\camera\cameraclass.cpp" />
     <ClCompile Include="src\core\render\2d\fontclass.cpp" />
@@ -171,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\applicationclass.h" />
+    <ClInclude Include="src\core\fpsclass.h" />
     <ClInclude Include="src\core\render\2d\bitmapclass.h" />
     <ClInclude Include="src\core\camera\cameraclass.h" />
     <ClInclude Include="src\core\render\2d\fontclass.h" />

@@ -13,6 +13,7 @@
 #include "core/camera/cameraclass.h"
 #include "core/render/3d/modelclass.h"
 #include "core/render/3d/lightshaderclass.h"
+#include "core/render/3d/lightmapshaderclass.h"
 #include "core/render/3d/lightclass.h"
 #include "core/render/2d/textureshaderclass.h"
 #include "core/render/2d/spriteclass.h"
@@ -55,15 +56,12 @@ private:
 private:
 	D3DClass* m_Direct3D;
 	CameraClass* m_Camera;
-	MultiTextureShaderClass* m_MultiTextureShader;
+	LightMapShaderClass* m_LightMapShader;
 	ModelClass* m_Model;
-	LightShaderClass* m_LightShader;
-	LightClass* m_Lights;
-	int m_numLights;
 
 
-	TimerClass* m_Timer;
 	
+	TimerClass* m_Timer;
 
 	// ****
 	// font

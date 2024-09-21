@@ -9,10 +9,9 @@ ApplicationClass::ApplicationClass()
 {
 	m_Direct3D = 0;
 	m_Camera = 0;
-	m_MultiTextureShader = 0;
+	m_LightMapShader = 0;
 	m_Model = 0;
-	m_LightShader = 0;
-	m_Lights = 0;
+
 	m_Timer = 0;
 	m_FontShader = 0;
 	m_Font = 0;
@@ -61,12 +60,12 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	m_Camera->Render();
 
 	// Create and initialize the multitexture shader object.
-	m_MultiTextureShader = new MultiTextureShaderClass;
+	m_LightMapShader = new LightMapShaderClass;
 
-	result = m_MultiTextureShader->Initialize(m_Direct3D->GetDevice(), hwnd);
+	result = m_LightMapShader->Initialize(m_Direct3D->GetDevice(), hwnd);
 	if (!result)
 	{
-		MessageBox(hwnd, L"Could not initialize the multitexture shader object.", L"Error", MB_OK);
+		MessageBox(hwnd, L"Could not initialize the light map shader object.", L"Error", MB_OK);
 		return false;
 	}
 
@@ -75,7 +74,7 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 	// Set the file name of the textures.
 	strcpy_s(textureFilename1, "./textures/stone01.tga");
-	strcpy_s(textureFilename2, "./textures/dirt01.tga");
+	strcpy_s(textureFilename2, "./textures/light01.tga");
 
 	// Create and initialize the model object.
 	m_Model = new ModelClass;
@@ -251,11 +250,11 @@ void ApplicationClass::Shutdown()
 	}
 
 	// Release the multitexture shader object.
-	if (m_MultiTextureShader)
+	if (m_LightMapShader)
 	{
-		m_MultiTextureShader->Shutdown();
-		delete m_MultiTextureShader;
-		m_MultiTextureShader = 0;
+		m_LightMapShader->Shutdown();
+		delete m_LightMapShader;
+		m_LightMapShader = 0;
 	}
 
 	// Release the camera object.
@@ -354,19 +353,9 @@ bool ApplicationClass::Render()
 	m_Camera->GetViewMatrix(viewMatrix);
 	m_Direct3D->GetProjectionMatrix(projectionMatrix);
 
-	// Get the light properties.
-	for (i = 0; i < m_numLights; i++)
-	{
-		// Create the diffuse color array from the four light colors.
-		diffuseColor[i] = m_Lights[i].GetDiffuseColor();
-
-		// Create the light position array from the four light positions.
-		lightPosition[i] = m_Lights[i].GetPosition();
-	}
-
 	// Put the model vertex and index buffers on the graphics pipeline to prepare them for drawing.
 	m_Model->Render(m_Direct3D->GetDeviceContext());
-	result = m_MultiTextureShader->Render(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
+	result = m_LightMapShader->Render(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
 		m_Model->GetTexture(0), m_Model->GetTexture(1));
 	if (!result)
 	{

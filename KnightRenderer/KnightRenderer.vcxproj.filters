@@ -72,6 +72,9 @@
     <ClCompile Include="src\core\render\2d\multitextureshaderclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\render\3d\lightmapshaderclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\applicationclass.h">
@@ -126,6 +129,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\core\render\2d\multitextureshaderclass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\render\3d\lightmapshaderclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

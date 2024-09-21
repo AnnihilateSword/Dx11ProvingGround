@@ -9,6 +9,7 @@
 // MY CLASS INCLUDES //
 ///////////////////////
 #include "core/render/d3dclass.h"
+#include "core/input/inputclass.h"
 #include "core/camera/cameraclass.h"
 #include "core/render/3d/modelclass.h"
 #include "core/render/3d/lightshaderclass.h"
@@ -43,10 +44,11 @@ public:
 
 	bool Initialize(int screenWidth, int screenHeight, HWND hwnd);
 	void Shutdown();
-	bool Frame();
+	bool Frame(InputClass* Input);
 
 private:
 	bool Render();
+	bool UpdateMouseStrings(int mouseX, int mouseY, bool mouseDown);
 	bool UpdateFps();
 
 private:
@@ -77,6 +79,9 @@ private:
 	FpsClass* m_Fps;
 	TextClass* m_FpsString;
 	int m_previousFps;
+
+	// Mouse String
+	TextClass* m_MouseStrings;
 };
 
 #endif

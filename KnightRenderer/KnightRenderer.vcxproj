@@ -163,6 +163,7 @@
     <ClCompile Include="src\core\render\3d\lightclass.cpp" />
     <ClCompile Include="src\core\render\2d\multitextureshaderclass.cpp" />
     <ClCompile Include="src\core\render\3d\lightmapshaderclass.cpp" />
+    <ClCompile Include="src\core\render\3d\normalmapshaderclass.cpp" />
     <ClCompile Include="src\core\render\textureclass.cpp" />
     <ClCompile Include="src\core\render\3d\lightshaderclass.cpp" />
     <ClCompile Include="src\core\render\d3dclass.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="src\core\render\3d\lightclass.h" />
     <ClInclude Include="src\core\render\2d\multitextureshaderclass.h" />
     <ClInclude Include="src\core\render\3d\lightmapshaderclass.h" />
+    <ClInclude Include="src\core\render\3d\normalmapshaderclass.h" />
     <ClInclude Include="src\core\render\textureclass.h" />
     <ClInclude Include="src\core\render\3d\lightshaderclass.h" />
     <ClInclude Include="src\core\render\d3dclass.h" />

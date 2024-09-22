@@ -31,6 +31,8 @@ private:
 		XMFLOAT3 position;
 		XMFLOAT2 texture;
 		XMFLOAT3 normal;
+		XMFLOAT3 tangent;
+		XMFLOAT3 binormal;
 	};
 
 	struct ModelType
@@ -38,6 +40,21 @@ private:
 		float x, y, z;
 		float tu, tv;
 		float nx, ny, nz;
+		float tx, ty, tz;
+		float bx, by, bz;
+	};
+
+	/** The following two structures will be used for calculating the tangent and binormal. */
+	struct TempVertexType
+	{
+		float x, y, z;
+		float tu, tv;
+		float nx, ny, nz;
+	};
+
+	struct VectorType
+	{
+		float x, y, z;
 	};
 
 public:
@@ -46,7 +63,7 @@ public:
 	~ModelClass();
 
 	bool Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext, char* modelFilename, 
-		char* textureFilename1, char* textureFilename2, char* textureFilename3);
+		char* textureFilename1, char* textureFilename2);
 	void Shutdown();
 	void Render(ID3D11DeviceContext* deviceContext);
 
@@ -58,17 +75,20 @@ private:
 	void ShutdownBuffers();
 	void RenderBuffers(ID3D11DeviceContext* deviceContext);
 
-	bool LoadTexture(ID3D11Device* device, ID3D11DeviceContext* deviceContext, char* filename1, char* filename2, char* filename3);
+	bool LoadTexture(ID3D11Device* device, ID3D11DeviceContext* deviceContext, char* filename1, char* filename2);
 	void ReleaseTextures();
 
 	bool LoadModel(char* filename);
 	void ReleaseModel();
 
+	void CalculateModelVectors();
+	void CalculateTangentBinormal(TempVertexType vertex1, TempVertexType vertex2, TempVertexType vertex3, VectorType& tangent, VectorType& binormal);
+
 private:
 	ID3D11Buffer* m_vertexBuffer, *m_indexBuffer;
 	int m_vertexCount, m_indexCount;
 	TextureClass* m_Textures;
-	ModelType* m_Model;
+	ModelType* m_model;
 };
 
 #endif

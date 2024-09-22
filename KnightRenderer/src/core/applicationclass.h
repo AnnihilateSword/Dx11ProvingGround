@@ -15,6 +15,7 @@
 #include "core/render/3d/lightshaderclass.h"
 #include "core/render/3d/lightmapshaderclass.h"
 #include "core/render/3d/alphamapshaderclass.h"
+#include "core/render/3d/normalmapshaderclass.h"
 #include "core/render/3d/lightclass.h"
 #include "core/render/2d/textureshaderclass.h"
 #include "core/render/2d/spriteclass.h"
@@ -50,15 +51,17 @@ public:
 	bool Frame(InputClass* Input);
 
 private:
-	bool Render();
+	bool Render(float rotation);
+
 	bool UpdateMouseStrings(int mouseX, int mouseY, bool mouseDown);
 	bool UpdateFps();
 
 private:
 	D3DClass* m_Direct3D;
 	CameraClass* m_Camera;
-	AlphaMapShaderClass* m_AlphaMapShader;
+	NormalMapShaderClass* m_NormalMapShader;
 	ModelClass* m_Model;
+	LightClass* m_Light;
 
 
 	

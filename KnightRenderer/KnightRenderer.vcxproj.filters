@@ -78,6 +78,9 @@
     <ClCompile Include="src\core\render\3d\alphamapshaderclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\render\3d\normalmapshaderclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\applicationclass.h">
@@ -138,6 +141,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\core\render\3d\alphamapshaderclass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\render\3d\normalmapshaderclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

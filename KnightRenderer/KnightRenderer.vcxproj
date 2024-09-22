@@ -163,6 +163,7 @@
     <ClCompile Include="src\core\render\3d\lightclass.cpp" />
     <ClCompile Include="src\core\render\2d\multitextureshaderclass.cpp" />
     <ClCompile Include="src\core\render\3d\lightmapshaderclass.cpp" />
+    <ClCompile Include="src\core\render\3d\modelloader_obj.h" />
     <ClCompile Include="src\core\render\3d\normalmapshaderclass.cpp" />
     <ClCompile Include="src\core\render\3d\specmapshaderclass.cpp" />
     <ClCompile Include="src\core\render\frustum_culling\frustumclass.cpp" />

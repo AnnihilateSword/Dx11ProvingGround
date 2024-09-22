@@ -3,6 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 #include "applicationclass.h"
 #include "fstream"
+#include "core/render/3d/modelloader_obj.h"
 
 
 ApplicationClass::ApplicationClass()
@@ -77,7 +78,7 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// Set the file name of the model.
-	strcpy_s(modelFilename, "./data/sphere.txt");
+	strcpy_s(modelFilename, "./models/bunny.obj.txt");
 
 	// Set the file name of the textures.
 	strcpy_s(textureFilename1, "./textures/stone01.tga");
@@ -85,6 +86,13 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 	// Create and initialize the model object.
 	m_Model = new ModelClass;
+
+
+	// ************************************************
+	// If xxx.obj.txt does not exist, run this function
+	// ************************************************
+	//ObjModelLoadder* objLoadder = new ObjModelLoadder;
+	//objLoadder->LoadObjModel("./models/bunny.obj");
 
 	result = m_Model->Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), modelFilename, 
 		textureFilename1, textureFilename2);
@@ -469,9 +477,9 @@ bool ApplicationClass::Render(float rotation)
 			// Render the model using the light shader.
 			m_Model->Render(m_Direct3D->GetDeviceContext());
 
-			result = m_ShaderManager->RenderNormalMapShader(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), 
+			result = m_ShaderManager->RenderLightShader(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), 
 				worldMatrix, viewMatrix, projectionMatrix,
-				m_Model->GetTexture(0), m_Model->GetTexture(1), m_Light->GetDirection(), m_Light->GetDiffuseColor());
+				m_Model->GetTexture(0), m_Light->GetDirection(), m_Light->GetDiffuseColor());
 			if (!result)
 			{
 				return false;

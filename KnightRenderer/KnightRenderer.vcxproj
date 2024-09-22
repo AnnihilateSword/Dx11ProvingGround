@@ -165,6 +165,7 @@
     <ClCompile Include="src\core\render\3d\lightmapshaderclass.cpp" />
     <ClCompile Include="src\core\render\3d\normalmapshaderclass.cpp" />
     <ClCompile Include="src\core\render\3d\specmapshaderclass.cpp" />
+    <ClCompile Include="src\core\render\shadermanagerclass.cpp" />
     <ClCompile Include="src\core\render\textureclass.cpp" />
     <ClCompile Include="src\core\render\3d\lightshaderclass.cpp" />
     <ClCompile Include="src\core\render\d3dclass.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="src\core\render\3d\lightmapshaderclass.h" />
     <ClInclude Include="src\core\render\3d\normalmapshaderclass.h" />
     <ClInclude Include="src\core\render\3d\specmapshaderclass.h" />
+    <ClInclude Include="src\core\render\shadermanagerclass.h" />
     <ClInclude Include="src\core\render\textureclass.h" />
     <ClInclude Include="src\core\render\3d\lightshaderclass.h" />
     <ClInclude Include="src\core\render\d3dclass.h" />

@@ -9,7 +9,7 @@ ApplicationClass::ApplicationClass()
 {
 	m_Direct3D = 0;
 	m_Camera = 0;
-	m_NormalMapShader = 0;
+	m_SpecMapShader = 0;
 	m_Model = 0;
 	m_Light = 0;
 
@@ -36,7 +36,7 @@ ApplicationClass::~ApplicationClass()
 bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 {
 	char modelFilename[128];
-	char textureFilename1[128], textureFilename2[128];
+	char textureFilename1[128], textureFilename2[128], textureFilename3[128];
 	// font
 	char testString[64];
 	char fpsString[32];
@@ -61,13 +61,13 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	m_Camera->SetPosition(0.0f, 0.0f, -5.0f);
 	m_Camera->Render();
 
-	// Create and initialize the normal map shader object.
-	m_NormalMapShader = new NormalMapShaderClass;
+	// Create and initialize the specular map shader object.
+	m_SpecMapShader = new SpecMapShaderClass;
 
-	result = m_NormalMapShader->Initialize(m_Direct3D->GetDevice(), hwnd);
+	result = m_SpecMapShader->Initialize(m_Direct3D->GetDevice(), hwnd);
 	if (!result)
 	{
-		MessageBox(hwnd, L"Could not initialize the normal map shader object.", L"Error", MB_OK);
+		MessageBox(hwnd, L"Could not initialize the specular map shader object.", L"Error", MB_OK);
 		return false;
 	}
 
@@ -75,14 +75,15 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	strcpy_s(modelFilename, "./data/cube.txt");
 
 	// Set the file name of the textures.
-	strcpy_s(textureFilename1, "./textures/stone01.tga");
-	strcpy_s(textureFilename2, "./textures/normal01.tga");
+	strcpy_s(textureFilename1, "./textures/stone02.tga");
+	strcpy_s(textureFilename2, "./textures/normal02.tga");
+	strcpy_s(textureFilename3, "./textures/spec02.tga");
 
 	// Create and initialize the model object.
 	m_Model = new ModelClass;
 
 	result = m_Model->Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), modelFilename, 
-		textureFilename1, textureFilename2);
+		textureFilename1, textureFilename2, textureFilename3);
 	if (!result)
 	{
 		return false;
@@ -93,6 +94,8 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 	m_Light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
 	m_Light->SetDirection(0.0f, 0.0f, 1.0f);
+	m_Light->SetSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
+	m_Light->SetSpecularPower(16.0f);
 
 	
 	// Create and initialize the timer object.
@@ -266,11 +269,11 @@ void ApplicationClass::Shutdown()
 	}
 
 	// Release the normal map shader object.
-	if (m_NormalMapShader)
+	if (m_SpecMapShader)
 	{
-		m_NormalMapShader->Shutdown();
-		delete m_NormalMapShader;
-		m_NormalMapShader = 0;
+		m_SpecMapShader->Shutdown();
+		delete m_SpecMapShader;
+		m_SpecMapShader = 0;
 	}
 
 	// Release the camera object.
@@ -382,8 +385,9 @@ bool ApplicationClass::Render(float rotation)
 	// Render the model using the normal map shader.
 	m_Model->Render(m_Direct3D->GetDeviceContext());
 
-	result = m_NormalMapShader->Render(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
-		m_Model->GetTexture(0), m_Model->GetTexture(1), m_Light->GetDirection(), m_Light->GetDiffuseColor());
+	result = m_SpecMapShader->Render(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
+		m_Model->GetTexture(0), m_Model->GetTexture(1), m_Model->GetTexture(2), m_Light->GetDirection(), m_Light->GetDiffuseColor(),
+		m_Camera->GetPosition(), m_Light->GetSpecularColor(), m_Light->GetSpecularPower());
 	if (!result)
 	{
 		return false;

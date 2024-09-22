@@ -14,10 +14,14 @@ ApplicationClass::ApplicationClass()
 
 	m_ShaderManager = 0;
 
+	m_ModelList = 0;
+	m_Position = 0;
+	m_Frustum = 0;
+
 	m_Timer = 0;
 	m_FontShader = 0;
 	m_Font = 0;
-	m_AuthorTextString = 0;
+	m_RenderCountString = 0;
 	m_Fps = 0;
 	m_FpsString = 0;
 	m_MouseStrings = 0;
@@ -61,6 +65,7 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	// Set the initial position of the camera.
 	m_Camera->SetPosition(0.0f, 0.0f, -8.0f);
 	m_Camera->Render();
+	m_Camera->GetViewMatrix(m_baseViewMatrix);
 
 	// Create and initialize the normal map shader object.
 	m_ShaderManager = new ShaderManagerClass;
@@ -151,14 +156,25 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 	
 	// 2.
 	// Set the strings we want to display.
-	strcpy_s(testString, "AnnihilateSword");
+	strcpy_s(testString, "Render Count: 0");
 	// Create and initialize the author text object.
-	m_AuthorTextString = new TextClass;
-	result = m_AuthorTextString->Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), screenWidth, screenHeight, 64, m_Font, testString, 10, 50, 0.8f, 0.2f, 0.2f);
+	m_RenderCountString = new TextClass;
+	result = m_RenderCountString->Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), screenWidth, screenHeight, 64, m_Font, testString, 10, 50, 1.0f, 1.0f, 1.0f);
 	if (!result)
 	{
 		return false;
 	}
+
+	// Create and initialize the model list object.
+	m_ModelList = new ModelListClass;
+	m_ModelList->Initialize(25);
+
+	// Create the position class object.
+	m_Position = new PositionClass;
+
+	// Create the frustum class object.
+	m_Frustum = new FrustumClass;
+
 
 	// 3. mouse string
 	// Set the initial mouse strings.
@@ -193,6 +209,28 @@ bool ApplicationClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 void ApplicationClass::Shutdown()
 {
+	// Release the frustum class object.
+	if (m_Frustum)
+	{
+		delete m_Frustum;
+		m_Frustum = 0;
+	}
+
+	// Release the position object.
+	if (m_Position)
+	{
+		delete m_Position;
+		m_Position = 0;
+	}
+
+	// Release the model list object.
+	if (m_ModelList)
+	{
+		m_ModelList->Shutdown();
+		delete m_ModelList;
+		m_ModelList = 0;
+	}
+
 	// Release the light object.
 	if (m_Light)
 	{
@@ -227,11 +265,11 @@ void ApplicationClass::Shutdown()
 	}
 
 	// Release the text string objects.
-	if (m_AuthorTextString)
+	if (m_RenderCountString)
 	{
-		m_AuthorTextString->Shutdown();
-		delete m_AuthorTextString;
-		m_AuthorTextString = 0;
+		m_RenderCountString->Shutdown();
+		delete m_RenderCountString;
+		m_RenderCountString = 0;
 	}
 
 	// Release the font object.
@@ -295,9 +333,11 @@ void ApplicationClass::Shutdown()
 bool ApplicationClass::Frame(InputClass* Input)
 {
 	static float rotation = 360.0f;
+	float rotationY;
 	float frameTime;
 	int mouseX, mouseY;
 	bool result, mouseDown;
+	bool keyDown;
 
 	// **********************************************
 	// FPS (Update the frames per second each frame.)
@@ -331,12 +371,31 @@ bool ApplicationClass::Frame(InputClass* Input)
 		return false;
 	}
 
-
 	// Update the system stats.
 	m_Timer->Frame();
 
 	// Get the current frame time.
 	frameTime = m_Timer->GetTime();
+
+
+	// Set the frame time for calculating the updated position.
+	m_Position->SetFrameTime(m_Timer->GetTime());
+
+	// Check if the left or right arrow key has been pressed, if so rotate the camera accordingly.
+	keyDown = Input->IsLeftArrowPressed();
+	m_Position->TurnLeft(keyDown);
+
+	keyDown = Input->IsRightArrowPressed();
+	m_Position->TurnRight(keyDown);
+
+	// Get the current view point rotation.
+	m_Position->GetRotation(rotationY);
+
+	// Set the rotation of the camera.
+	m_Camera->SetRotation(0.0f, rotationY, 0.0f);
+	m_Camera->Render();
+
+
 
 	// **************************
 	// Render the graphics scene.
@@ -362,61 +421,69 @@ bool ApplicationClass::Render(float rotation)
 {
 	XMMATRIX worldMatrix, viewMatrix, projectionMatrix, orthoMatrix;
 	XMMATRIX rotateMatrix, translateMatrix;
-	int i;
-	bool result;
+	float positionX, positionY, positionZ, radius;
+	int modelCount, renderCount, i;
+	bool renderModel, result;
 
 
 	// Clear the buffers to begin the scene.
 	m_Direct3D->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
-	// Generate the view matrix based on the camera's position.
-	m_Camera->Render();
-
 	// Get the world, view, and projection matrices from the camera and d3d objects.
 	m_Direct3D->GetWorldMatrix(worldMatrix);
 	m_Camera->GetViewMatrix(viewMatrix);
 	m_Direct3D->GetProjectionMatrix(projectionMatrix);
+	m_Direct3D->GetOrthoMatrix(orthoMatrix);
 
-	// Setup matrices.
-	rotateMatrix = XMMatrixRotationY(rotation);
-	translateMatrix = XMMatrixTranslation(0.0f, 1.0f, 0.0f);
-	worldMatrix = XMMatrixMultiply(rotateMatrix, translateMatrix);
+	
+	// Construct the frustum.
+	m_Frustum->ConstructFrustum(viewMatrix, projectionMatrix, SCREEN_DEPTH);
 
-	// Render the model using the texture shader.
-	m_Model->Render(m_Direct3D->GetDeviceContext());
+	// Get the number of models that will be rendered.
+	modelCount = m_ModelList->GetModelCount();
 
-	result = m_ShaderManager->RenderTextureShader(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
-		m_Model->GetTexture(0));
-	if (!result)
+	// Initialize the count of models that have been rendered.
+	renderCount = 0;
+
+
+	// **************************************************************************************
+	// Go through all the models and render them only if they can be seen by the camera view.
+	// **************************************************************************************
+	for (i = 0; i < modelCount; i++)
 	{
-		return false;
+		// Get the position and color of the sphere model at this index.
+		m_ModelList->GetData(i, positionX, positionY, positionZ);
+
+		// Set the radius of the sphere to 1.0 since this is already known.
+		radius = 1.0f;
+
+		// Check if the sphere model is in the view frustum.
+		renderModel = m_Frustum->CheckSphere(positionX, positionY, positionZ, radius);
+
+		// If it can be seen then render it, if not skip this model and check the next sphere.
+		if (renderModel)
+		{
+			// Move the model to the location it should be rendered at.
+			worldMatrix = XMMatrixTranslation(positionX, positionY, positionZ);
+
+			// Render the model using the light shader.
+			m_Model->Render(m_Direct3D->GetDeviceContext());
+
+			result = m_ShaderManager->RenderNormalMapShader(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), 
+				worldMatrix, viewMatrix, projectionMatrix,
+				m_Model->GetTexture(0), m_Model->GetTexture(1), m_Light->GetDirection(), m_Light->GetDiffuseColor());
+			if (!result)
+			{
+				return false;
+			}
+
+			// Since this model was rendered then increase the count for this frame.
+			renderCount++;
+		}
 	}
 
-	// Setup matrices.
-	rotateMatrix = XMMatrixRotationY(rotation);
-	translateMatrix = XMMatrixTranslation(-1.5f, -1.0f, 0.0f);
-	worldMatrix = XMMatrixMultiply(rotateMatrix, translateMatrix);
-
-	// Render the model using the light shader.
-	m_Model->Render(m_Direct3D->GetDeviceContext());
-
-	result = m_ShaderManager->RenderLightShader(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
-		m_Model->GetTexture(0), m_Light->GetDirection(), m_Light->GetDiffuseColor());
-	if (!result)
-	{
-		return false;
-	}
-
-	// Setup matrices.
-	rotateMatrix = XMMatrixRotationY(rotation);
-	translateMatrix = XMMatrixTranslation(1.5f, -1.0f, 0.0f);
-	worldMatrix = XMMatrixMultiply(rotateMatrix, translateMatrix);
-
-	// Render the model using the normal map shader.
-	m_Model->Render(m_Direct3D->GetDeviceContext());
-
-	result = m_ShaderManager->RenderNormalMapShader(m_Direct3D->GetDeviceContext(), m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix,
-		m_Model->GetTexture(0), m_Model->GetTexture(1), m_Light->GetDirection(), m_Light->GetDiffuseColor());
+	// Update the render count text.
+	result = UpdateRenderCountString(renderCount);
 	if (!result)
 	{
 		return false;
@@ -427,10 +494,6 @@ bool ApplicationClass::Render(float rotation)
 	// 2D Rendering
 	// ************
 
-	m_Direct3D->GetWorldMatrix(worldMatrix);
-	m_Camera->GetViewMatrix(viewMatrix);
-	m_Direct3D->GetOrthoMatrix(orthoMatrix);
-
 	// **************
 	// font rendering
 	// **************
@@ -439,19 +502,24 @@ bool ApplicationClass::Render(float rotation)
 	m_Direct3D->TurnZBufferOff();
 	m_Direct3D->EnableAlphaBlending();
 
+	m_Direct3D->GetWorldMatrix(worldMatrix);
+
 	// Render the FPS text string using the font shader.
 	m_FpsString->Render(m_Direct3D->GetDeviceContext());
-	result = m_FontShader->Render(m_Direct3D->GetDeviceContext(), m_FpsString->GetIndexCount(), worldMatrix, viewMatrix, orthoMatrix,
+	result = m_FontShader->Render(m_Direct3D->GetDeviceContext(), m_FpsString->GetIndexCount(), worldMatrix, m_baseViewMatrix, orthoMatrix,
 		m_Font->GetTexture(), m_FpsString->GetPixelColor());
 	if (!result)
 	{
 		return false;
 	}
 
+	// ****************************************************
 	// Render the second text string using the font shader.
-	m_AuthorTextString->Render(m_Direct3D->GetDeviceContext());
-	result = m_FontShader->Render(m_Direct3D->GetDeviceContext(), m_AuthorTextString->GetIndexCount(), worldMatrix, viewMatrix, orthoMatrix,
-		m_Font->GetTexture(), m_AuthorTextString->GetPixelColor());
+	// ****************************************************
+	m_RenderCountString->Render(m_Direct3D->GetDeviceContext());
+	result = m_FontShader->Render(m_Direct3D->GetDeviceContext(), m_RenderCountString->GetIndexCount(), 
+		worldMatrix, m_baseViewMatrix, orthoMatrix,
+		m_Font->GetTexture(), m_RenderCountString->GetPixelColor());
 	if (!result)
 	{
 		return false;
@@ -462,7 +530,7 @@ bool ApplicationClass::Render(float rotation)
 	{
 		m_MouseStrings[i].Render(m_Direct3D->GetDeviceContext());
 
-		result = m_FontShader->Render(m_Direct3D->GetDeviceContext(), m_MouseStrings[i].GetIndexCount(), worldMatrix, viewMatrix, orthoMatrix,
+		result = m_FontShader->Render(m_Direct3D->GetDeviceContext(), m_MouseStrings[i].GetIndexCount(), worldMatrix, m_baseViewMatrix, orthoMatrix,
 			m_Font->GetTexture(), m_MouseStrings[i].GetPixelColor());
 		if (!result)
 		{
@@ -596,6 +664,29 @@ bool ApplicationClass::UpdateMouseStrings(int mouseX, int mouseY, bool mouseDown
 
 	// Update the sentence vertex buffer with the new string information.
 	result = m_MouseStrings[2].UpdateText(m_Direct3D->GetDeviceContext(), m_Font, finalString, 10, 140, 1.0f, 1.0f, 1.0f);
+	if (!result)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool ApplicationClass::UpdateRenderCountString(int renderCount)
+{
+	char tempString[16], finalString[32];
+	bool result;
+
+
+	// Convert the render count integer to string format.
+	sprintf_s(tempString, "%d", renderCount);
+
+	// Setup the render count string.
+	strcpy_s(finalString, "Render Count: ");
+	strcat_s(finalString, tempString);
+
+	// Update the sentence vertex buffer with the new string information.
+	result = m_RenderCountString->UpdateText(m_Direct3D->GetDeviceContext(), m_Font, finalString, 10, 50, 1.0f, 1.0f, 1.0f);
 	if (!result)
 	{
 		return false;

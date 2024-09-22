@@ -30,6 +30,9 @@
 #include "core/render/2d/textclass.h"
 #include "core/fpsclass.h"
 #include "core/render/2d/multitextureshaderclass.h"
+#include "core/render/frustum_culling/frustumclass.h"
+#include "core/render/frustum_culling/modellistclass.h"
+#include "core/render/frustum_culling/positionclass.h"
 
 
 /////////////
@@ -60,6 +63,7 @@ private:
 
 	bool UpdateMouseStrings(int mouseX, int mouseY, bool mouseDown);
 	bool UpdateFps();
+	bool UpdateRenderCountString(int renderCount);
 
 private:
 	D3DClass* m_Direct3D;
@@ -69,6 +73,10 @@ private:
 
 	ShaderManagerClass* m_ShaderManager;
 
+	ModelListClass* m_ModelList;
+	PositionClass* m_Position;
+	FrustumClass* m_Frustum;
+	XMMATRIX m_baseViewMatrix;
 
 	
 	TimerClass* m_Timer;
@@ -78,7 +86,7 @@ private:
 	// ****
 	FontShaderClass* m_FontShader;
 	FontClass* m_Font;
-	TextClass* m_AuthorTextString;
+	TextClass* m_RenderCountString;
 
 	// ***
 	// Fps

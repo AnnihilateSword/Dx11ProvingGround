@@ -87,6 +87,15 @@
     <ClCompile Include="src\core\render\shadermanagerclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\render\frustum_culling\frustumclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\render\frustum_culling\modellistclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\render\frustum_culling\positionclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\applicationclass.h">
@@ -156,6 +165,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\core\render\shadermanagerclass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\render\frustum_culling\frustumclass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\render\frustum_culling\modellistclass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\render\frustum_culling\positionclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
